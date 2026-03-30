@@ -538,6 +538,188 @@
             background: #2563eb;
         }
 
+        /* Guide Button */
+        .guide-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #3b82f6;
+            color: #fff;
+            font-size: 13.5px;
+            font-weight: 600;
+            padding: 8px 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-bottom: 24px;
+        }
+
+        .guide-btn:hover {
+            background: #2563eb;
+        }
+
+        .guide-btn .material-symbols-rounded {
+            font-size: 18px;
+        }
+
+        /* Guide Popup Overlay */
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup-overlay.active {
+            display: flex;
+        }
+
+        .popup {
+            background: #fff;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 820px;
+            max-height: 85vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        .popup-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 28px;
+            border-bottom: 1px solid #e5e7eb;
+            flex-shrink: 0;
+        }
+
+        .popup-header h2 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1a2e;
+        }
+
+        .popup-close {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: #f3f4f6;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .popup-close:hover {
+            background: #e5e7eb;
+        }
+
+        .popup-close .material-symbols-rounded {
+            font-size: 20px;
+            color: #6b7280;
+        }
+
+        /* Popup Tabs */
+        .popup-tabs {
+            display: flex;
+            gap: 0;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 0 28px;
+            flex-shrink: 0;
+        }
+
+        .popup-tab {
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #9ca3af;
+            background: none;
+            border: none;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: color 0.2s, border-color 0.2s;
+        }
+
+        .popup-tab:hover {
+            color: #6b7280;
+        }
+
+        .popup-tab.active {
+            color: #3b82f6;
+            border-bottom-color: #3b82f6;
+            font-weight: 600;
+        }
+
+        /* Popup Body */
+        .popup-body {
+            padding: 24px 28px 28px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .popup-section {
+            display: none;
+        }
+
+        .popup-section.active {
+            display: block;
+        }
+
+        .guide-step {
+            margin-bottom: 28px;
+        }
+
+        .guide-step:last-child {
+            margin-bottom: 0;
+        }
+
+        .guide-step-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #3b82f6;
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+            margin-right: 8px;
+            flex-shrink: 0;
+        }
+
+        .guide-step-text {
+            font-size: 14px;
+            font-weight: 500;
+            color: #1a1a2e;
+            line-height: 1.6;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .guide-step-text span {
+            padding-top: 2px;
+        }
+
+        .guide-step img {
+            width: 100%;
+            border-radius: 10px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
         /* Responsive */
         @media (max-width: 900px) {
             .design-grid, .opt-grid { grid-template-columns: repeat(2, 1fr); }
@@ -560,6 +742,12 @@
     </div>
 
     <div class="cbs-tools-wrapper">
+
+        <!-- Guide Button -->
+        <button class="guide-btn" onclick="openGuide()">
+            <span class="material-symbols-rounded">menu_book</span>
+            신규기능 이용 가이드
+        </button>
 
         <!-- Hero -->
         <div class="hero">
@@ -773,7 +961,151 @@
 
     </div>
 
+    <!-- Guide Popup -->
+    <div class="popup-overlay" id="guidePopup">
+        <div class="popup">
+            <div class="popup-header">
+                <h2>신규기능 이용 가이드</h2>
+                <button class="popup-close" onclick="closeGuide()">
+                    <span class="material-symbols-rounded">close</span>
+                </button>
+            </div>
+            <div class="popup-tabs">
+                <button class="popup-tab active" onclick="switchTab(event, 'tab-passage')">AI 지문 생성</button>
+                <button class="popup-tab" onclick="switchTab(event, 'tab-difficulty')">AI 난이도 변경</button>
+                <button class="popup-tab" onclick="switchTab(event, 'tab-question')">AI 문제 생성</button>
+            </div>
+            <div class="popup-body">
+
+                <!-- Tab 1: AI 지문 생성 -->
+                <div class="popup-section active" id="tab-passage">
+                    <div class="guide-step">
+                        <div class="guide-step-text">
+                            <span class="guide-step-num">1</span>
+                            <span>지문 관리 목록 상단 <strong>AI 등록</strong> 버튼 클릭 → <strong>AI 지문 생성</strong> 선택</span>
+                        </div>
+                        <img src="이미지 (2).png" alt="AI 지문 생성 - 1단계">
+                    </div>
+                    <div class="guide-step">
+                        <div class="guide-step-text">
+                            <span class="guide-step-num">2</span>
+                            <span>학년 / 난이도 / 단어 수 / 글 형식 / 소재·주제 등 생성 조건 설정</span>
+                        </div>
+                        <img src="이미지 (3).png" alt="AI 지문 생성 - 2단계">
+                    </div>
+                    <div class="guide-step">
+                        <div class="guide-step-text">
+                            <span class="guide-step-num">3</span>
+                            <span>설정 완료 후 <strong>생성</strong> 버튼 클릭</span>
+                        </div>
+                        <img src="이미지 (4).png" alt="AI 지문 생성 - 3단계">
+                    </div>
+                    <div class="guide-step">
+                        <div class="guide-step-text">
+                            <span class="guide-step-num">4</span>
+                            <span>생성된 지문 확인 후 교과 / 교과과정 / 타이틀 등 정보 입력</span>
+                        </div>
+                        <img src="이미지 (5).png" alt="AI 지문 생성 - 4단계">
+                    </div>
+                    <div class="guide-step">
+                        <div class="guide-step-text">
+                            <span class="guide-step-num">5</span>
+                            <span><strong>CBS 저장</strong> 버튼 클릭 → 지문 관리 목록에서 저장된 지문 확인 및 수정 가능</span>
+                        </div>
+                        <img src="이미지 (7).png" alt="AI 지문 생성 - 5단계">
+                    </div>
+                </div>
+
+                <!-- Tab 2: AI 난이도 변경 -->
+                <div class="popup-section" id="tab-difficulty">
+                    <div class="guide-step">
+                        <div class="guide-step-text">
+                            <span class="guide-step-num">1</span>
+                            <span><strong>AI 등록</strong> → <strong>AI 난이도 변경</strong> 클릭</span>
+                        </div>
+                        <img src="이미지 (2).png" alt="AI 난이도 변경 - 1단계">
+                    </div>
+                    <div class="guide-step">
+                        <div class="guide-step-text">
+                            <span class="guide-step-num">2</span>
+                            <span>난이도를 변경할 지문 선택</span>
+                        </div>
+                        <img src="이미지 (8).png" alt="AI 난이도 변경 - 2단계">
+                    </div>
+                    <div class="guide-step">
+                        <div class="guide-step-text">
+                            <span class="guide-step-num">3</span>
+                            <span>원하는 난이도 선택 (<strong>쉽게 / 비슷하게 / 어렵게</strong>) 후 저장 클릭</span>
+                        </div>
+                        <img src="이미지 (9).png" alt="AI 난이도 변경 - 3단계">
+                    </div>
+                    <div class="guide-step">
+                        <div class="guide-step-text">
+                            <span class="guide-step-num">4</span>
+                            <span>변환된 지문 확인 후 교과 / 교과과정 / 타이틀 등 정보 수정 후 저장</span>
+                        </div>
+                        <img src="이미지 (10).png" alt="AI 난이도 변경 - 4단계">
+                    </div>
+                </div>
+
+                <!-- Tab 3: AI 문제 생성 -->
+                <div class="popup-section" id="tab-question">
+                    <div class="guide-step">
+                        <div class="guide-step-text">
+                            <span class="guide-step-num">1</span>
+                            <span>지문 화면에서 <strong>AI 문제 생성</strong> 버튼 클릭 후 생성할 문제 유형 선택 (최대 5개 선택 가능)</span>
+                        </div>
+                        <img src="이미지 (14).png" alt="AI 문제 생성 - 1단계">
+                    </div>
+                    <div class="guide-step">
+                        <div class="guide-step-text">
+                            <span class="guide-step-num">2</span>
+                            <span>AI가 생성한 문제를 저작툴에서 확인 및 수정</span>
+                        </div>
+                        <img src="이미지 (15).png" alt="AI 문제 생성 - 2단계">
+                    </div>
+                    <div class="guide-step">
+                        <div class="guide-step-text">
+                            <span class="guide-step-num">3</span>
+                            <span>각 콘텐츠별 정보 입력 후 저장</span>
+                        </div>
+                        <img src="이미지 (16).png" alt="AI 문제 생성 - 3단계">
+                    </div>
+                    <div class="guide-step">
+                        <div class="guide-step-text">
+                            <span class="guide-step-num">4</span>
+                            <span>저장된 문제는 <strong>일반 콘텐츠 관리</strong>에서 아티클 형태로 확인 및 활용 가능</span>
+                        </div>
+                        <img src="이미지 (17).png" alt="AI 문제 생성 - 4단계">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
     <script>
+        function openGuide() {
+            document.getElementById('guidePopup').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeGuide() {
+            document.getElementById('guidePopup').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function switchTab(event, tabId) {
+            document.querySelectorAll('.popup-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.popup-section').forEach(s => s.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        document.getElementById('guidePopup').addEventListener('click', function(e) {
+            if (e.target === this) closeGuide();
+        });
+
         const urlMap = {
             'ai-illustration': '#',
             'ai-english-text': '#',
