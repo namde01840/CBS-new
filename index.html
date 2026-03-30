@@ -1100,6 +1100,7 @@
             document.querySelectorAll('.popup-section').forEach(s => s.classList.remove('active'));
             event.target.classList.add('active');
             document.getElementById(tabId).classList.add('active');
+            document.querySelector('.popup-body').scrollTop = 0;
         }
 
         document.getElementById('guidePopup').addEventListener('click', function(e) {
